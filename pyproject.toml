@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "eve-backend"
+version = "0.1.0"
+description = "Electronic Vignette Evidence service backend"
+authors = [
+    "Adam Vlček <adam.vlcek@mendelu.cz>",
+    "Jakub Drajsajtl <xdrajsaj@mendelu.cz>",
+    "Martin Janečka <xjaneck1@mendelu.cz>",
+    "Jiří Jeřábek <xjerabe@mendelu.cz>",
+    "Jiří Valach <jiri.valach@mendelu.cz>",
+    "Jiří Zbořil <xzboril7@mendelu.cz>",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = "^3.1.7"
+djangorestframework = "^3.12.2"
+pendulum = "^2.1.2"
+python-dotenv = "^0.15.0"
+loguru = "^0.5.3"
+psycopg2 = "^2.8.6"
+
+[tool.poetry.dev-dependencies]
+black = "^20.8b1"
+pylint = "^2.7.1"
+isort = "^5.7.0"
+flake8 = "^3.8.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
