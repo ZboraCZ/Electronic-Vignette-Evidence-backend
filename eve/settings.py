@@ -19,6 +19,7 @@ from pathlib import Path
 from eve.utils import config_from_envvar, getenv_bool
 
 if not config_from_envvar("EVE_CONFIG"):
+    print("Missing 'EVE_CONFIG' envvar")
     sys.exit(1)
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
