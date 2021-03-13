@@ -4,7 +4,7 @@ from django.db import migrations
 
 
 def create_vignette_types(apps, schema_editor):
-    VignetteType = apps.get_model("vignette", "VignetteType")
+    VignetteType = apps.get_model("vignettes", "VignetteType")
 
     VignetteType(
         name="10denni",
@@ -37,7 +37,7 @@ def create_vignette_types(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vignette', '0001_initial'),
+        ('vignettes', '0001_initial'),
     ]
 
     operations = [

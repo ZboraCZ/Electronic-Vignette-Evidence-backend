@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('serial_number', models.CharField(max_length=25)),
                 ('valid_from', models.DateTimeField()),
                 ('licence_plate', models.CharField(max_length=8)),
-                ('vignette_type', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='vignette.vignettetype')),
+                ('vignette_type', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='vignettes.vignettetype')),
             ],
         ),
     ]

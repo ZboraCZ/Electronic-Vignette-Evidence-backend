@@ -18,5 +18,5 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path('vignettes/', include("eve.vignette.urls")),
+    path('vignettes/', include("eve.vignettes.urls")),
 ]
