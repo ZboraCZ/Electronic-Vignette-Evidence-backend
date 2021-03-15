@@ -16,7 +16,7 @@ import sys
 
 from pathlib import Path
 
-from eve.utils import config_from_envvar, getenv_bool
+from eve.utils import config_from_envvar, getenv_bool, getenv_list
 
 if not config_from_envvar("EVE_CONFIG"):
     print("Missing 'EVE_CONFIG' envvar")
@@ -36,9 +36,11 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = getenv_bool("DEBUG")
 
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = getenv_list("ALLOWED_HOSTS")
 
-
+# CORS cofiguration
+CORS_ALLOWED_ORIGINS = getenv_list("CORS_ALLOWED_ORIGINS")
+CORS_ALLOW_ALL_ORIGINS = getenv_bool("CORS_ALLOW_ALL_ORIGINS")
 # Application definition
 
 INSTALLED_APPS = [
@@ -46,10 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     "rest_framework",
     "eve.vignettes",
+    'corsheaders',
 ]
 
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
