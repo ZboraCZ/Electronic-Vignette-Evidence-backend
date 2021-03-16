@@ -1,0 +1,20 @@
+[
+  {
+    "name":"10denni",
+    "display_name":"10ti denní",
+    "price":310,
+    "duration":"10 00:00:00"
+  },
+  {
+    "name":"30denni",
+    "display_name":"30ti denní",
+    "price":440,
+    "duration":"30 00:00:00"
+  },
+  {
+    "name":"rocni",
+    "display_name":"Roční",
+    "price":1500,
+    "duration":"365 00:00:00"
+  }
+]

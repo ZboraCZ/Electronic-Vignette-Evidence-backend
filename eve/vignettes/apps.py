@@ -4,4 +4,4 @@ from django.apps import AppConfig
 
 
 class VignetteAppConfig(AppConfig):
-    name = "vignette"
+    name = "vignettes"
