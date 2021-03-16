@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import os
 import sys
-
 from pathlib import Path
 
 from eve.utils import config_from_envvar, getenv_bool, getenv_list
@@ -41,21 +40,22 @@ ALLOWED_HOSTS = getenv_list("ALLOWED_HOSTS")
 # CORS cofiguration
 CORS_ALLOWED_ORIGINS = getenv_list("CORS_ALLOWED_ORIGINS")
 CORS_ALLOW_ALL_ORIGINS = getenv_bool("CORS_ALLOW_ALL_ORIGINS")
+
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
     "rest_framework",
     "eve.vignettes",
-    'corsheaders',
+    "corsheaders",
 ]
 
 
 MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 )
 
 
@@ -81,9 +81,7 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
     ],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny"
-    ],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],

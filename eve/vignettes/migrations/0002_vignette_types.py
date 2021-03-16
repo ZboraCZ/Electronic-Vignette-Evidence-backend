@@ -10,34 +10,28 @@ def create_vignette_types(apps, schema_editor):
         name="10denni",
         display_name="10ti denní",
         price=310,
-        duration=datetime.timedelta(
-            days=10
-        )
+        duration=datetime.timedelta(days=10),
     ).save()
 
     VignetteType(
         name="30denni",
         display_name="30ti denní",
         price=440,
-        duration=datetime.timedelta(
-            days=30
-        )
+        duration=datetime.timedelta(days=30),
     ).save()
 
     VignetteType(
         name="rocni",
         display_name="Roční",
         price=1500,
-        duration=datetime.timedelta(
-            days=365
-        )
+        duration=datetime.timedelta(days=365),
     ).save()
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vignettes', '0001_initial'),
+        ("vignettes", "0001_initial"),
     ]
 
     operations = [

@@ -3,7 +3,6 @@
 import json
 
 import pytest
-
 from deepdiff import DeepDiff
 
 

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .operations import get_all_vignette_types, get_one_vignette_type
 from .serializers import VignetteTypeSerializer
-from .models import VignetteType
 
 
 class VignetteTypesView(APIView):
