@@ -19,4 +19,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path("vignettes/", include("eve.vignettes.urls")),
+    path("users/", include("eve.users.urls")),
 ]

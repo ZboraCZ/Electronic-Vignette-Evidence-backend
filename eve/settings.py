@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "rest_framework",
     "eve.vignettes",
+    "eve.users",
     "corsheaders",
 ]
 
