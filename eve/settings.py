@@ -52,11 +52,11 @@ INSTALLED_APPS = [
 ]
 
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-)
+]
 
 
 ROOT_URLCONF = "eve.urls"
