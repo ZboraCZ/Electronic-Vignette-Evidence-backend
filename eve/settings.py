@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "eve.vignettes",
     "eve.users",
+    "eve.roles",
+    "eve.statistics",
     "corsheaders",
 ]
 
