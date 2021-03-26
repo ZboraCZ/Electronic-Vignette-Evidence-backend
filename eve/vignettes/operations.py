@@ -6,6 +6,7 @@ from rest_framework.exceptions import NotFound
 from .models import VignetteType, Vignette
 
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 
 def get_all_vignette_types():
@@ -16,13 +17,27 @@ def get_one_vignette_type(vignette_id):
     try:
         return VignetteType.objects.get(id=vignette_id)
     except VignetteType.DoesNotExist:
-        raise NotFound(detail="Vignette Not Found")
+        raise NotFound(detail="Vignette Type Not Found")
 
 
 def get_active_vignette_by_license_plate(license_plate):
+    now = timezone.now()
+    validVignettes = []
+
     try:
-        validVignette = Vignette.objects.filter(idVignetteType__valid_from < datetime.now())
-        print(validVignette)
-        return Vignette.objects.get(id=vignette_id)
-    except VignetteType.DoesNotExist:
-        raise NotFound(detail="Vignette Not Found")
+        for vignette in Vignette.objects.select_related().filter(valid_from__lte=datetime.now()).filter(license_plate=license_plate):
+            vignetteType = VignetteType.objects.get(id=vignette.id)
+            daysUsed = timedelta(days=(now-vignette.valid_from).days)
+
+            if daysUsed <= vignetteType.duration:
+                validVignettes.append(vignette)
+
+        return validVignettes
+    except Vignette.DoesNotExist:
+        raise NotFound(
+            detail={
+                "error": "VIGNETTE_NOT_FOUND",
+                "message": "Vignette with this license plate doesn't exist.",
+                "timestamp": datetime.now()
+            }
+        )

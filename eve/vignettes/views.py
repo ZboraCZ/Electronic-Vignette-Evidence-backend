@@ -31,6 +31,6 @@ class VignetteTypesView(APIView):
 class VignettesView(APIView):
     @staticmethod
     def get(request, license_plate):
-        active_vignette = get_active_vignette_by_license_plate(license_plate)
-        serializer = VignetteSerializer(active_vignette)
+        active_vignettes = get_active_vignette_by_license_plate(license_plate)
+        serializer = VignetteSerializer(active_vignettes, many=True)
         return Response(serializer.data)

@@ -14,12 +14,12 @@ class VignetteType(models.Model):
 
 
 class Vignette(models.Model):
-    id_user = models.ForeignKey(
+    user = models.ForeignKey(
         Users, on_delete=models.DO_NOTHING
     )
-    id_vignette_type = models.ForeignKey(
+    vignette_type = models.ForeignKey(
         VignetteType, on_delete=models.DO_NOTHING
     )
     serial_number = models.CharField(max_length=25)
     valid_from = models.DateTimeField()
-    licence_plate = models.CharField(max_length=8)
+    license_plate = models.CharField(max_length=8)
