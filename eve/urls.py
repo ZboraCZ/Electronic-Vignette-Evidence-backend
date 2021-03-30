@@ -25,4 +25,5 @@ urlpatterns = [
     path("auth/", include("eve.authentication.urls")),
     path("roles/", include("eve.roles.urls")),
     path("swagger-ui/", TemplateView.as_view(template_name='swagger-ui.html'), name="home"),
+
 ]
