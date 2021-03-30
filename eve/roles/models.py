@@ -5,8 +5,8 @@ from django.db import models
 
 
 class Roles(models.Model):
-    ADMIN = 1
-    USER = 2
+    ADMIN = "admin"
+    USER = "user"
 
     ROLE_NAME_CHOICES = [
         (ADMIN, 'admin'),
