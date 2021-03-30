@@ -3,8 +3,15 @@
 
 from django.db import models
 
+from eve.roles.models import Roles
+
+
 class Users(models.Model):
-    email = models.CharField(max_length=320)
+    role = models.ForeignKey(
+        Roles, on_delete=models.DO_NOTHING, default=2  # default=2 is User role
+    )
+    email = models.CharField(max_length=100)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    password_hash = models.CharField(max_length=64)
     phone = models.CharField(max_length=15)

@@ -3,5 +3,5 @@
 from django.apps import AppConfig
 
 
-class UsersAppConfig(AppConfig):
-    name = "users"
+class VignetteAppConfig(AppConfig):
+    name = "roles"

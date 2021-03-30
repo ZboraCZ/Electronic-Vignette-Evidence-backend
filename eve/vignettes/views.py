@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .operations import get_all_vignette_types, get_one_vignette_type
-from .serializers import VignetteTypeSerializer
+from .operations import get_all_vignette_types, get_one_vignette_type, get_active_vignette_by_license_plate
+from .serializers import VignetteTypeSerializer, VignetteSerializer
 
 
 class VignetteTypesView(APIView):
@@ -26,3 +26,53 @@ class VignetteTypesView(APIView):
             return Response(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ActiveVignetteView(APIView):
+    @staticmethod
+    def get(request, license_plate):
+        active_vignettes = get_active_vignette_by_license_plate(license_plate)
+        serializer = VignetteSerializer(active_vignettes, many=True)
+        return Response(serializer.data)
+
+
+class LicensePlateValidateView(APIView):
+    @staticmethod
+    def get(request, license_plate):
+        return Response("OK")
+
+
+class QuickBuyView(APIView):
+    @staticmethod
+    def get(request, license_plate):
+        return Response("OK")
+
+
+class BuyView(APIView):
+    @staticmethod
+    def get(request, license_plate):
+        return Response("OK")
+
+
+class ExtendView(APIView):
+    @staticmethod
+    def get(request, vignette_id):
+        return Response("OK")
+
+
+class DelayView(APIView):
+    @staticmethod
+    def get(request, vignette_id):
+        return Response("OK")
+
+
+class RemoveView(APIView):
+    @staticmethod
+    def get(request, vignette_id):
+        return Response("OK")
+
+
+class HistoryView(APIView):
+    @staticmethod
+    def get(request, vignette_id):
+        return Response("OK")
