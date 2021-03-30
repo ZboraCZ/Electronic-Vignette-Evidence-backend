@@ -88,6 +88,17 @@ REST_FRAMEWORK = {
     ],
 }
 
+# Templates for rendering static HTML pages (Swagger API etc.)
+# Templates directory: drajsajtl\eve\templates
+TEMPLATES_DIR = os.path.join(BASE_DIR, "eve", "templates")
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [TEMPLATES_DIR],
+        'APP_DIRS': True,
+    }
+]
+
 
 TIME_ZONE = "UTC"
 

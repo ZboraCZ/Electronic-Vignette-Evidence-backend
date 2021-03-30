@@ -16,8 +16,10 @@ Including another URLconf
 """
 
 from django.urls import include, path
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path("vignettes/", include("eve.vignettes.urls")),
     path("users/", include("eve.users.urls")),
+    path("swagger-ui/", TemplateView.as_view(template_name='swagger-ui.html'), name="home"),
 ]
