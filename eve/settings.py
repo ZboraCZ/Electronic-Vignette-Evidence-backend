@@ -18,8 +18,14 @@ from pathlib import Path
 from eve.utils import config_from_envvar, getenv_bool, getenv_list
 
 if not config_from_envvar("EVE_CONFIG"):
-    print("Missing 'EVE_CONFIG' envvar")
-    sys.exit(1)
+    print("Missing 'EVE_CONFIG' envvar. Using production settings.")
+
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
+
+else:
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = getenv_bool("DEBUG")
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,10 +36,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
-
-# SECURITY WARNING: don"t run with debug turned on in production!
-DEBUG = getenv_bool("DEBUG")
-
 
 ALLOWED_HOSTS = getenv_list("ALLOWED_HOSTS")
 

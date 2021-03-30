@@ -12,7 +12,7 @@ authors = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.9"
 django = "^3.1.7"
 djangorestframework = "^3.12.2"
 pendulum = "^2.1.2"
