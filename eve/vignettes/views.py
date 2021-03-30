@@ -28,9 +28,51 @@ class VignetteTypesView(APIView):
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
-class VignettesView(APIView):
+class ActiveVignetteView(APIView):
     @staticmethod
     def get(request, license_plate):
         active_vignettes = get_active_vignette_by_license_plate(license_plate)
         serializer = VignetteSerializer(active_vignettes, many=True)
         return Response(serializer.data)
+
+
+class LicensePlateValidateView(APIView):
+    @staticmethod
+    def get(request, license_plate):
+        return Response("OK")
+
+
+class QuickBuyView(APIView):
+    @staticmethod
+    def get(request, license_plate):
+        return Response("OK")
+
+
+class BuyView(APIView):
+    @staticmethod
+    def get(request, license_plate):
+        return Response("OK")
+
+
+class ExtendView(APIView):
+    @staticmethod
+    def get(request, vignette_id):
+        return Response("OK")
+
+
+class DelayView(APIView):
+    @staticmethod
+    def get(request, vignette_id):
+        return Response("OK")
+
+
+class RemoveView(APIView):
+    @staticmethod
+    def get(request, vignette_id):
+        return Response("OK")
+
+
+class HistoryView(APIView):
+    @staticmethod
+    def get(request, vignette_id):
+        return Response("OK")
