@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "eve.users",
     "eve.roles",
     "eve.statistics",
+    "eve.authentication",
     "corsheaders",
 ]
 
