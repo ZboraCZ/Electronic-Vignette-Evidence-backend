@@ -13,7 +13,7 @@ class RegistrationView(APIView):
 
 class LoginView(APIView):
     @staticmethod
-    def post(request, license_plate):
+    def post(request):
         return Response("OK")
 
 

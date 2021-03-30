@@ -20,24 +20,25 @@ def get_one_vignette_type(vignette_id):
         raise NotFound(detail="Vignette Type Not Found")
 
 
+def get_vignettes_by_license_plate(license_plate):
+    try:
+        return Vignette.objects.filter(valid_from__lte=datetime.now()).filter(license_plate=license_plate)
+    except Vignette.DoesNotExist:
+        raise NotFound(detail="Vignette with this license plate doesn't exist")
+
+
 def get_active_vignette_by_license_plate(license_plate):
     now = timezone.now()
-    validVignettes = []
+    valid_vignettes = []
+    found_vignettes = get_vignettes_by_license_plate(license_plate)
 
-    try:
-        for vignette in Vignette.objects.select_related().filter(valid_from__lte=datetime.now()).filter(license_plate=license_plate):
-            vignetteType = VignetteType.objects.get(id=vignette.id)
-            daysUsed = timedelta(days=(now-vignette.valid_from).days)
+    for vignette in found_vignettes:
+        days_used = timedelta(days=(now-vignette.valid_from).days)
 
-            if daysUsed <= vignetteType.duration:
-                validVignettes.append(vignette)
+        if days_used <= vignette.vignette_type.duration:
+            valid_vignettes.append(vignette)
 
-        return validVignettes
-    except Vignette.DoesNotExist:
-        raise NotFound(
-            detail={
-                "error": "VIGNETTE_NOT_FOUND",
-                "message": "Vignette with this license plate doesn't exist.",
-                "timestamp": datetime.now()
-            }
-        )
+    if len(valid_vignettes) > 0:
+        return valid_vignettes
+    else:
+        raise NotFound(detail="Vignette with this license plate doesn't exist.")

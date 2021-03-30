@@ -5,5 +5,15 @@ from django.db import models
 
 
 class Roles(models.Model):
-    name = models.CharField(max_length=25)
+    ADMIN = 1
+    USER = 2
 
+    ROLE_NAME_CHOICES = [
+        (ADMIN, 'admin'),
+        (USER, 'user'),
+    ]
+
+    name = models.CharField(max_length=25,
+                            choices=ROLE_NAME_CHOICES,
+                            default=USER
+                            )

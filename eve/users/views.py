@@ -6,6 +6,12 @@ from .operations import get_one_user
 from .serializers import UsersSerializer
 
 
+class UsersVignettesView(APIView):
+    @staticmethod
+    def get(request, user_id):
+        return Response("OK")
+
+
 class UsersView(APIView):
     @staticmethod
     def get(request, user_id):
