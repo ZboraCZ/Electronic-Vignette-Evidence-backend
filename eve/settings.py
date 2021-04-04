@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 from eve.utils import config_from_envvar, getenv_bool, getenv_list
@@ -45,6 +46,8 @@ CORS_ALLOW_ALL_ORIGINS = getenv_bool("CORS_ALLOW_ALL_ORIGINS")
 # Application definition
 
 INSTALLED_APPS = [
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
     "rest_framework",
     "eve.vignettes",
     "eve.users",
@@ -52,8 +55,10 @@ INSTALLED_APPS = [
     "eve.statistics",
     "eve.authentication",
     "corsheaders",
+    "rest_framework.authtoken"
 ]
 
+AUTH_USER_MODEL = "users.Users"
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -84,12 +89,13 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
     ],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     "DEFAULT_PARSER_CLASSES": [
         "rest_framework.parsers.JSONParser",
     ],
-    "DEFAULT_AUTHENTICATION_CLASSES": [],
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
-    "UNAUTHENTICATED_USER": None,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ]
 }
 
 # Templates for rendering static HTML pages (Swagger API etc.)
