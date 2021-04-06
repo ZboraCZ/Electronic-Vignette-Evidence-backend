@@ -632,7 +632,7 @@ definitions:
   daysExtend:
     type: object
     properties:
-      days:
+      id_vignette_type:
         type: integer
   delayTime:
     type: object
