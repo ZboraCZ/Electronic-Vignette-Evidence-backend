@@ -12,4 +12,4 @@ class AuthUsersSerializer(serializers.Serializer):
 
 
 class TokenSerializer(serializers.Serializer):
-    key = serializers.CharField()
+    accessToken = serializers.CharField()
