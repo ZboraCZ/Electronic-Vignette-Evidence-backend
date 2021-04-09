@@ -31,16 +31,16 @@ class LoginView(APIView):
         serializer = AuthUsersSerializer(data=data)
         data = {}
         if serializer.is_valid():
-            user = Users.objects.get(email=request.data["email"])
-            if request.data["email"] == user.email:
-                if request.data["password"] == user.password:
-                    token = Token.objects.get(user=user).key
-                    data["accessToken"] = token
-                    return Response(data, status=status.HTTP_200_OK)
-                else:
-                    data["message"] = "wrong password"
-                    return Response(data, status=status.HTTP_401_UNAUTHORIZED)
-            else:
+            try:
+                user = Users.objects.get(email=request.data["email"])
+            except:
                 data["message"] = "wrong email"
+                return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+            if request.data["password"] == user.password:
+                token = Token.objects.get(user=user).key
+                data["accessToken"] = token
+                return Response(data, status=status.HTTP_200_OK)
+            else:
+                data["message"] = "wrong password"
                 return Response(data, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
