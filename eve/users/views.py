@@ -5,6 +5,9 @@ from rest_framework.views import APIView
 from .operations import get_one_user
 from .serializers import UsersSerializer
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 class UsersVignettesView(APIView):
     @staticmethod
@@ -13,6 +16,9 @@ class UsersVignettesView(APIView):
 
 
 class UsersView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     @staticmethod
     def get(request, user_id):
         user = get_one_user(user_id)
