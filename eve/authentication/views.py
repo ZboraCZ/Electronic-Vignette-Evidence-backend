@@ -34,6 +34,7 @@ class LoginView(APIView):
             try:
                 user = Users.objects.get(email=request.data["email"])
             except:
+                data["error"] = "AUTH_ERROR"
                 data["message"] = "wrong email"
                 return Response(data, status=status.HTTP_401_UNAUTHORIZED)
             if request.data["password"] == user.password:
@@ -41,6 +42,7 @@ class LoginView(APIView):
                 data["accessToken"] = token
                 return Response(data, status=status.HTTP_200_OK)
             else:
+                data["error"] = "AUTH_ERROR"
                 data["message"] = "wrong password"
                 return Response(data, status=status.HTTP_401_UNAUTHORIZED)
-        return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
