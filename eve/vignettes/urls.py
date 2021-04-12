@@ -11,9 +11,10 @@ urlpatterns = [
     path("<str:license_plate>/validate", LicensePlateValidateView.as_view()),
     path("<str:license_plate>/quick-buy", QuickBuyView.as_view()),
     path("<str:license_plate>/buy", BuyView.as_view()),
+    path("<str:license_plate>/history", HistoryView.as_view()),
     path("<str:license_plate>", ActiveVignetteView.as_view()),
     path("<str:vignette_id>/extend", ExtendView.as_view()),
     path("<str:vignette_id>/delay", DelayView.as_view()),
     path("<str:vignette_id>/remove", RemoveView.as_view()),
-    path("history", HistoryView.as_view()),
+
 ]

@@ -1,0 +1,28 @@
+[
+  {
+    "vignetteId": 0,
+    "licensePlate": "0B00000",
+    "serialNumber": 0,
+    "vignetteType": {
+      "name":"10denni",
+      "display_name":"10ti denní",
+      "price":310,
+      "duration":"10 00:00:00"
+    },
+    "usedId": 99,
+    "validFrom": "2021-01-01"
+  },
+  {
+    "vignetteId": 1,
+    "licensePlate": "0B00001",
+    "serialNumber": 0,
+    "vignetteType": {
+      "name":"10denni",
+      "display_name":"10ti denní",
+      "price":310,
+      "duration":"10 00:00:00"
+    },
+    "usedId": 1,
+    "validFrom": "2021-01-02"
+  }
+]

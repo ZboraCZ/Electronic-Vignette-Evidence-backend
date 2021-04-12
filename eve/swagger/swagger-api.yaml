@@ -216,7 +216,7 @@ paths:
             $ref: '#/definitions/VignetteNotFound'
       security:
       - Bearer: []
-  /vignettes/history:
+  /vignettes/{license_plate}/history:
     get:
       tags:
       - Vignettes
