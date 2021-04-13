@@ -3,7 +3,7 @@
 
 from rest_framework.exceptions import NotFound
 
-from .models import VignetteType, Vignette, ValidatedVignette
+from .models import VignetteType, Vignette
 
 from datetime import datetime, timedelta
 from django.utils import timezone

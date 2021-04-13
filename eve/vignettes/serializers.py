@@ -3,7 +3,7 @@
 
 from rest_framework import serializers
 
-from .models import VignetteType, Vignette, ValidatedVignette, ExtendVignette, DelayVignette
+from .models import VignetteType, Vignette
 
 
 class VignetteTypeSerializer(serializers.ModelSerializer):

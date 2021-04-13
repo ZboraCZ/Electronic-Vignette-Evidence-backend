@@ -9,9 +9,9 @@ from .operations import get_all_vignette_types, get_one_vignette_type, get_activ
     get_all_vignettes_by_licence_plate
 from eve.users.operations import get_one_user
 from .serializers import VignetteTypeSerializer, VignetteSerializer, ValidatedVignetteSerializer, \
-    BuyVignetteSerializer, ExtendVignetteSerializer, DelayVignetteSerializer
+    BuyVignetteSerializer, ExtendVignetteSerializer, DelayVignetteSerializer, QuickBuyVignetteSerializer
 
-from services import create_new_vignette, create_new_vignette_quick, extend_vignette, delay_vignette
+from .services import create_new_vignette, create_new_vignette_quick, extend_vignette, delay_vignette
 
 from django.utils import timezone
 
@@ -58,7 +58,7 @@ class QuickBuyView(APIView):
     @staticmethod
     def post(request, license_plate):
         data = request.data
-        serializer_quick_buy = ValidatedVignetteSerializer(data=data)
+        serializer_quick_buy = QuickBuyVignetteSerializer(data=data)
         serializer_quick_buy.is_valid(raise_exception=True)
         vignette_type = get_one_vignette_type(serializer_quick_buy.validated_data["id_vignette_type"])
         valid_from = serializer_quick_buy.validated_data["valid_from"]
