@@ -23,7 +23,9 @@ class VignetteTypesView(APIView):
 
         if serializer.is_valid():
             serializer.update(vignette_type, serializer.validated_data)
-            return Response(serializer.data)
+            vignette_types = get_all_vignette_types()
+            vignette_type_serializer = VignetteTypeSerializer(vignette_types, many=True)
+            return Response(vignette_type_serializer.data)
 
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
 

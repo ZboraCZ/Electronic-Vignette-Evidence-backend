@@ -1,4 +1,3 @@
----
 swagger: "2.0"
 info:
   version: 1.0.0
@@ -473,13 +472,14 @@ paths:
       parameters: []
       responses:
         "200":
-          description: returns vignettes
-          schema: {}
+          description: returns vignette types
+          schema:
+            items:
+              $ref: '#/definitions/VignetteType'
         "404":
           description: vignette types not found
           schema:
             $ref: '#/definitions/VignetteNotFound'
-  /vignettes/types/{vignette_type_id}/edit:
     patch:
       tags:
       - VignetteTypes
@@ -489,11 +489,6 @@ paths:
       produces:
       - application/json
       parameters:
-      - name: vignette_type_id
-        in: path
-        description: vignette id to update
-        required: true
-        type: integer
       - in: body
         name: editedVignetteType
         description: delayed days in form of date
@@ -502,9 +497,10 @@ paths:
           $ref: '#/definitions/editedVignetteType'
       responses:
         "200":
-          description: returns modified vignette type
+          description: returns vignette types
           schema:
-            $ref: '#/definitions/VignetteType'
+            items:
+              $ref: '#/definitions/VignetteType'
         "404":
           description: vignette type not found
           schema:
@@ -528,7 +524,7 @@ definitions:
         type: integer
       vignetteType:
         $ref: '#/definitions/VignetteType'
-      usedId:
+      userId:
         type: integer
       validFrom:
         type: string
@@ -546,6 +542,8 @@ definitions:
         type: string
       phone:
         type: string
+      role:
+        $ref: '#/definitions/Role'
   RegistrationCredentials:
     type: object
     properties:
@@ -604,13 +602,18 @@ definitions:
   VignetteType:
     type: object
     properties:
+      id:
+        type: integer
       name:
+        type: string
+      display_name:
         type: string
       price:
         type: integer
       duration:
         type: string
         format: time
+        example: 10 00:00:00
   quickBuyVignette:
     type: object
     properties:
@@ -677,3 +680,10 @@ definitions:
       duration:
         type: string
         example: 10 00:00:00
+  Role:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string

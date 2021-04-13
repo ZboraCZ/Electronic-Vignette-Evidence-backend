@@ -10,7 +10,7 @@ from django.utils import timezone
 
 
 def get_all_vignette_types():
-    return [vto for vto in VignetteType.objects.all()]
+    return [vto for vto in VignetteType.objects.all().order_by('id')]
 
 
 def get_one_vignette_type(vignette_id):
