@@ -19,8 +19,7 @@ class VignetteSerializer(serializers.ModelSerializer):
 
 
 class ValidatedVignetteSerializer(serializers.Serializer):
-    valid = bool
-    vignette = VignetteType
+    valid = serializers.BooleanField()
 
     def create(self, validated_data):
         pass

@@ -8,6 +8,15 @@ from .models import VignetteType, Vignette
 from datetime import datetime, timedelta
 from django.utils import timezone
 
+from django.db import models
+
+from dataclasses import dataclass
+
+
+@dataclass
+class ValidatedVignette:
+    valid: bool
+
 
 def get_all_vignette_types():
     return [vto for vto in VignetteType.objects.all().order_by('id')]
@@ -34,9 +43,13 @@ def get_vignettes_by_license_plate(license_plate):
         raise NotFound(detail="Vignette with this license plate doesn't exist")
 
 
-def get_all_vignettes_by_licence_plate(licence_plate):
+def get_all_vignettes_by_license_plate(license_plate):
+    all_vignette = []
     try:
-        return Vignette.objects.filter(licence_plate=licence_plate)
+        found_vignettes = Vignette.objects.filter(license_plate=license_plate)
+        for vignette in found_vignettes:
+            all_vignette.append(vignette)
+        return all_vignette
     except Vignette.DoesNotExist:
         raise NotFound(detail="Vignette with this license plate doesn't exist")
 
@@ -58,10 +71,10 @@ def get_active_vignette_by_license_plate(license_plate):
         raise NotFound(detail="Vignette with this license plate doesn't exist.")
 
 
-def get_expired_vignette_by_license_plate(licence_plate):
+def get_expired_vignette_by_license_plate(license_plate):
     now = timezone.now()
     expired_vignettes = []
-    found_vignettes = get_vignettes_by_license_plate(licence_plate)
+    found_vignettes = get_vignettes_by_license_plate(license_plate)
 
     for vignette in found_vignettes:
         days_used = timedelta(days=(now))
@@ -71,20 +84,20 @@ def get_validated_vignette_by_license_plate(license_plate):
     validated_vignettes = []
 
     active_vignettes = get_active_vignette_by_license_plate(license_plate)
-    all_vignettes = get_all_vignettes_by_licence_plate(license_plate)
-    expired_vignettes = all_vignettes - active_vignettes
+    all_vignettes = get_all_vignettes_by_license_plate(license_plate)
+    expired_vignettes = set(all_vignettes) - set(active_vignettes)
 
     for active_vignette in active_vignettes:
-        validated_vignette = ValidatedVignette(valid=True, vignette=active_vignette)
+        validated_vignette = ValidatedVignette(valid=True)
         validated_vignettes.append(validated_vignette)
     for expired_vignette in expired_vignettes:
-        validated_vignette = ValidatedVignette(valid=False, vignette=expired_vignette)
+        validated_vignette = ValidatedVignette(valid=False)
         validated_vignettes.append(validated_vignette)
 
     if len(validated_vignettes) > 0:
-        return validated_vignettes
+        return ValidatedVignette(valid=True)
     else:
-        raise NotFound(detail="Vignette with this licence plate doesn't exist")
+        raise NotFound(detail="Vignette with this license plate doesn't exist")
 
 
 
