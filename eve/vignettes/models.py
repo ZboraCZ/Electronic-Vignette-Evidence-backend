@@ -15,7 +15,7 @@ class VignetteType(models.Model):
 
 class Vignette(models.Model):
     user = models.ForeignKey(
-        Users, on_delete=models.DO_NOTHING
+        Users, on_delete=models.DO_NOTHING, null=True,
     )
     vignette_type = models.ForeignKey(
         VignetteType, on_delete=models.DO_NOTHING

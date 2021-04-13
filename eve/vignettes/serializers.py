@@ -16,3 +16,56 @@ class VignetteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vignette
         fields = ["id", "user_id", "vignette_type_id", "serial_number", "valid_from", "license_plate"]
+
+
+class ValidatedVignetteSerializer(serializers.Serializer):
+    valid = serializers.BooleanField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+
+class QuickBuyVignetteSerializer(serializers.Serializer):
+    id_vignette_type = serializers.IntegerField()
+    valid_from = serializers.DateTimeField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+
+class BuyVignetteSerializer(serializers.Serializer):
+    id_vignette_type = serializers.IntegerField()
+    id_user = serializers.IntegerField()
+    valid_from = serializers.DateTimeField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+
+class ExtendVignetteSerializer(serializers.Serializer):
+    days = serializers.IntegerField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
+
+
+class DelayVignetteSerializer(serializers.Serializer):
+    delay_date = serializers.DateTimeField()
+
+    def create(self, validated_data):
+        pass
+
+    def update(self, instance, validated_data):
+        pass
