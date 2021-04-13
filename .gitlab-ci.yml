@@ -1,0 +1,31 @@
+
+stages:
+  - init
+  - lint
+  - test
+  - deploy
+
+# Tohle je bohužel smutná realita
+
+#init:
+#  stage: init
+#  script:
+#    - poetry install --no-root
+
+#lint:
+#  stage: lint
+#  script:
+#    - poetry run make lint
+
+#integration-tests:
+#  stage: test
+#  script:
+#    - poetry run pytest tests
+
+deploy-prod:
+  stage: deploy
+  only:
+    refs:
+      - master
+  script:
+    - git push -f https://$HEROKU_USER:$HEROKU_API_KEY@git.heroku.com/app-eve.git HEAD:master
