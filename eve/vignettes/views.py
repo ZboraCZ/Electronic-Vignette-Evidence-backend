@@ -3,6 +3,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
 
 from .operations import get_all_vignette_types, get_one_vignette_type, get_active_vignette_by_license_plate, \
     get_one_vignette_by_id, get_validated_vignette_by_license_plate,  \
@@ -20,6 +21,9 @@ class VignetteTypesView(APIView):
     permission_classes = []
 
     @staticmethod
+    @extend_schema(
+        responses={200: VignetteTypeSerializer}
+    )
     def get(request):
         types = get_all_vignette_types()
         serializer = VignetteTypeSerializer(types, many=True)
@@ -28,6 +32,10 @@ class VignetteTypesView(APIView):
 
 class VignetteTypesEditView(APIView):
     @staticmethod
+    @extend_schema(
+        request=VignetteTypeSerializer,
+        responses={200: VignetteTypeSerializer}
+    )
     def patch(request, vignette_type_id):
         data = request.data
         vignette_type = get_one_vignette_type(vignette_type_id)
@@ -44,6 +52,9 @@ class VignetteTypesEditView(APIView):
 
 class ActiveVignetteView(APIView):
     @staticmethod
+    @extend_schema(
+        responses={200: VignetteSerializer}
+    )
     def get(request, license_plate):
         active_vignettes = get_active_vignette_by_license_plate(license_plate)
         serializer = VignetteSerializer(active_vignettes, many=True)
@@ -54,6 +65,9 @@ class LicensePlateValidateView(APIView):
     permission_classes = []
 
     @staticmethod
+    @extend_schema(
+        responses={200: ValidatedVignetteSerializer}
+    )
     def get(request, license_plate):
         valid = get_validated_vignette_by_license_plate(license_plate)
         serializer = ValidatedVignetteSerializer(valid)
@@ -64,6 +78,10 @@ class QuickBuyView(APIView):
     permission_classes = []
 
     @staticmethod
+    @extend_schema(
+        request=QuickBuyVignetteSerializer,
+        responses={200: QuickBuyVignetteSerializer}
+    )
     def post(request, license_plate):
         data = request.data
         serializer_quick_buy = QuickBuyVignetteSerializer(data=data)
@@ -76,6 +94,10 @@ class QuickBuyView(APIView):
 
 class BuyView(APIView):
     @staticmethod
+    @extend_schema(
+        request=BuyVignetteSerializer,
+        responses={200: BuyVignetteSerializer}
+    )
     def post(request, license_plate):
         data = request.data
         serializer_buy = BuyVignetteSerializer(data=data)
@@ -89,6 +111,10 @@ class BuyView(APIView):
 
 class ExtendView(APIView):
     @staticmethod
+    @extend_schema(
+        request=ExtendVignetteSerializer,
+        responses={200: ExtendVignetteSerializer}
+    )
     def post(request, vignette_id):
         data = request.data
         serializer = ExtendVignetteSerializer(data=data)
@@ -100,6 +126,10 @@ class ExtendView(APIView):
 
 class DelayView(APIView):
     @staticmethod
+    @extend_schema(
+        request=DelayVignetteSerializer,
+        responses={200: DelayVignetteSerializer}
+    )
     def post(request, vignette_id):
         data = request.data
         serializer = DelayVignetteSerializer(data=data)
@@ -110,6 +140,9 @@ class DelayView(APIView):
 
 class RemoveView(APIView):
     @staticmethod
+    @extend_schema(
+        responses={200: None}
+    )
     def delete(request, vignette_id):
         get_one_vignette_by_id(vignette_id).delete()
         return Response(status=status.HTTP_200_OK)
@@ -117,6 +150,9 @@ class RemoveView(APIView):
 
 class HistoryView(APIView):
     @staticmethod
+    @extend_schema(
+        responses={200: VignetteSerializer}
+    )
     def get(request, license_plate):
         serializer = VignetteSerializer(get_all_vignettes_by_license_plate(license_plate), many=True)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
