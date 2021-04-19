@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import hashlib
 import os
 
 from dotenv import load_dotenv
@@ -26,3 +26,8 @@ def getenv_list(env_var, default=None, delimiter=" "):
         return var.split(delimiter)
 
     return default
+
+
+def encrypt_string(hash_string):
+    hashed_string = hashlib.sha256(hash_string.encode()).hexdigest()
+    return hashed_string

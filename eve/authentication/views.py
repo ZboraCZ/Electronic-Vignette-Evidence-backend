@@ -7,14 +7,17 @@ from rest_framework.authtoken.models import Token
 
 from eve.authentication.serializers import AuthUsersSerializer, TokenSerializer
 from eve.users.models import Users
-from eve.users.serializers import UsersSerializer
+from eve.users.serializers import UsersAuthSerializer
+from eve.utils import encrypt_string
 
 
 class RegistrationView(APIView):
     @staticmethod
     def post(request):
         data = request.data
-        serializer = UsersSerializer(data=data)
+        password_hash = encrypt_string(data["password"])
+        data["password"] = password_hash
+        serializer = UsersAuthSerializer(data=data)
         data = {}
         if serializer.is_valid():
             user = serializer.save()
@@ -37,7 +40,7 @@ class LoginView(APIView):
                 data["error"] = "AUTH_ERROR"
                 data["message"] = "wrong email"
                 return Response(data, status=status.HTTP_401_UNAUTHORIZED)
-            if request.data["password"] == user.password:
+            if encrypt_string(request.data["password"]) == user.password:
                 token = Token.objects.get(user=user).key
                 data["accessToken"] = token
                 return Response(data, status=status.HTTP_200_OK)
