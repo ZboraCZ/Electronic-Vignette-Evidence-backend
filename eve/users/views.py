@@ -2,18 +2,19 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .operations import get_one_user, get_users_vignettes
-from .serializers import UsersSerializer
-from eve.vignettes.serializers import VignetteSerializer
+from .operations import get_one_user, get_users_license_plate
+from .serializers import UsersSerializer, LicensePlateSerializer
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 
-class UsersVignettesView(APIView):
+class UsersLicensePlateView(APIView):
     @staticmethod
     def get(request, user_id):
-        serializer = VignetteSerializer(get_users_vignettes(user_id), many=True)
+        license_plate = get_users_license_plate(user_id)
+        serializer = LicensePlateSerializer(data=license_plate, many=True)
+        serializer.is_valid(raise_exception=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

@@ -13,5 +13,10 @@ def get_one_user(user_id):
         raise NotFound(detail="User Not Found")
 
 
-def get_users_vignettes(user_id):
-    return get_vignette_by_user_id(get_one_user(user_id))
+def get_users_license_plate(user_id):
+    vignettes = get_vignette_by_user_id(get_one_user(user_id))
+    license_plate = []
+    for vignette in vignettes:
+        license_plate.append({"license_plate": vignette.license_plate})
+
+    return license_plate

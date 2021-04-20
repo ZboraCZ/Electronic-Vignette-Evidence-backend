@@ -107,9 +107,3 @@ def get_vignette_by_user_id(user):
         return vignettes
     else:
         raise NotFound(detail="User doesn't have any vignette")
-
-
-
-
-
-
