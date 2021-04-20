@@ -100,6 +100,15 @@ def get_validated_vignette_by_license_plate(license_plate):
         raise NotFound(detail="Vignette with this license plate doesn't exist")
 
 
+def get_vignette_by_user_id(user):
+    vignettes = []
+    vignettes = Vignette.objects.filter(user=user)
+    if len(vignettes) > 0:
+        return vignettes
+    else:
+        raise NotFound(detail="User doesn't have any vignette")
+
+
 
 
 
