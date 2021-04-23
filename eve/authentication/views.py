@@ -23,6 +23,7 @@ class RegistrationView(APIView):
             user = serializer.save()
             token = Token.objects.get(user=user).key
             data["accessToken"] = token
+            data["userId"] = user.id
             return Response(data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -43,6 +44,7 @@ class LoginView(APIView):
             if encrypt_string(request.data["password"]) == user.password:
                 token = Token.objects.get(user=user).key
                 data["accessToken"] = token
+                data["userId"] = user.id
                 return Response(data, status=status.HTTP_200_OK)
             else:
                 data["error"] = "AUTH_ERROR"
