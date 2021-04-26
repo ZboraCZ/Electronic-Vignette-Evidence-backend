@@ -12,6 +12,8 @@ from eve.utils import encrypt_string
 
 
 class RegistrationView(APIView):
+    permission_classes = []
+
     @staticmethod
     def post(request):
         data = request.data
@@ -29,6 +31,8 @@ class RegistrationView(APIView):
 
 
 class LoginView(APIView):
+    permission_classes = []
+
     @staticmethod
     def post(request):
         data = request.data

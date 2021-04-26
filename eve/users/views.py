@@ -16,9 +16,6 @@ class UsersVignettesView(APIView):
 
 
 class UsersView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
     @staticmethod
     def get(request, user_id):
         user = get_one_user(user_id)
