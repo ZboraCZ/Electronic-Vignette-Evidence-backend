@@ -17,12 +17,16 @@ from django.utils import timezone
 
 
 class VignetteTypesView(APIView):
+    permission_classes = []
+
     @staticmethod
     def get(request):
         types = get_all_vignette_types()
         serializer = VignetteTypeSerializer(types, many=True)
         return Response(serializer.data)
 
+
+class VignetteTypesEditView(APIView):
     @staticmethod
     def patch(request, vignette_type_id):
         data = request.data
@@ -47,6 +51,8 @@ class ActiveVignetteView(APIView):
 
 
 class LicensePlateValidateView(APIView):
+    permission_classes = []
+
     @staticmethod
     def get(request, license_plate):
         valid = get_validated_vignette_by_license_plate(license_plate)
@@ -55,6 +61,8 @@ class LicensePlateValidateView(APIView):
 
 
 class QuickBuyView(APIView):
+    permission_classes = []
+
     @staticmethod
     def post(request, license_plate):
         data = request.data
