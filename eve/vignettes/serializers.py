@@ -15,7 +15,7 @@ class VignetteTypeSerializer(serializers.ModelSerializer):
 class VignetteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vignette
-        fields = ["id", "user_id", "vignette_type_id", "serial_number", "valid_from", "license_plate"]
+        fields = ["id", "user_id", "vignette_type_id", "serial_number", "valid_from", "license_plate", "created"]
 
 
 class ValidatedVignetteSerializer(serializers.Serializer):
