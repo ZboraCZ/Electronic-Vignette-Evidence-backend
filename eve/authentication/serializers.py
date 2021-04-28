@@ -13,3 +13,9 @@ class AuthUsersSerializer(serializers.Serializer):
 
 class TokenSerializer(serializers.Serializer):
     accessToken = serializers.CharField()
+    userId = serializers.IntegerField()
+
+
+class AuthErrorSerializer(serializers.Serializer):
+    error = serializers.CharField()
+    message = serializers.CharField()
