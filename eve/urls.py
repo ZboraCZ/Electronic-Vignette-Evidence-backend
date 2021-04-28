@@ -17,6 +17,8 @@ Including another URLconf
 
 from django.urls import include, path
 from django.views.generic.base import TemplateView
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
 
 urlpatterns = [
     path("vignettes/", include("eve.vignettes.urls")),
@@ -25,5 +27,6 @@ urlpatterns = [
     path("auth/", include("eve.authentication.urls")),
     path("roles/", include("eve.roles.urls")),
     path("swagger-ui/", TemplateView.as_view(template_name='swagger-ui.html'), name="home"),
-
+    path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
+    path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(url_name="api-schema"))
 ]

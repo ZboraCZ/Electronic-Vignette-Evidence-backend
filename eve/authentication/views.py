@@ -4,10 +4,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
+from drf_spectacular.utils import extend_schema
 
-from eve.authentication.serializers import AuthUsersSerializer, TokenSerializer
+from eve.authentication.serializers import AuthUsersSerializer, TokenSerializer, AuthErrorSerializer
 from eve.users.models import Users
-from eve.users.serializers import UsersAuthSerializer
+from eve.users.serializers import UsersAuthSerializer, UsersSerializer
 from eve.utils import encrypt_string
 
 
@@ -15,6 +16,10 @@ class RegistrationView(APIView):
     permission_classes = []
 
     @staticmethod
+    @extend_schema(
+        request=UsersSerializer,
+        responses={200: TokenSerializer}
+    )
     def post(request):
         data = request.data
         password_hash = encrypt_string(data["password"])
@@ -34,6 +39,13 @@ class LoginView(APIView):
     permission_classes = []
 
     @staticmethod
+    @extend_schema(
+        request=AuthUsersSerializer,
+        responses={
+            200: TokenSerializer,
+            401: AuthErrorSerializer
+        }
+    )
     def post(request):
         data = request.data
         serializer = AuthUsersSerializer(data=data)
