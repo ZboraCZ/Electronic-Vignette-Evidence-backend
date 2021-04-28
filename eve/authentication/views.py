@@ -8,7 +8,7 @@ from drf_spectacular.utils import extend_schema
 
 from eve.authentication.serializers import AuthUsersSerializer, TokenSerializer
 from eve.users.models import Users
-from eve.users.serializers import UsersAuthSerializer
+from eve.users.serializers import UsersAuthSerializer, UsersSerializer
 from eve.utils import encrypt_string
 
 

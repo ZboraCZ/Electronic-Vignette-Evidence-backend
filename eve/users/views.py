@@ -12,6 +12,9 @@ from rest_framework.permissions import IsAuthenticated
 
 class UsersLicensePlateView(APIView):
     @staticmethod
+    @extend_schema(
+        responses={200: LicensePlateSerializer}
+    )
     def get(request, user_id):
         license_plate = get_users_license_plate(user_id)
         serializer = LicensePlateSerializer(data=license_plate, many=True)
