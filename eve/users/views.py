@@ -9,6 +9,8 @@ from .serializers import UsersSerializer, LicensePlateSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from ..authentication.operations import check_user
+
 
 class UsersLicensePlateView(APIView):
     @staticmethod
@@ -16,6 +18,7 @@ class UsersLicensePlateView(APIView):
         responses={200: LicensePlateSerializer}
     )
     def get(request, user_id):
+        check_user(request, user_id)
         license_plate = get_users_license_plate(user_id)
         serializer = LicensePlateSerializer(data=license_plate, many=True)
         serializer.is_valid(raise_exception=True)
@@ -31,6 +34,7 @@ class UsersView(APIView):
         responses={200: UsersSerializer}
     )
     def get(request, user_id):
+        check_user(request, user_id)
         user = get_one_user(user_id)
         serializer = UsersSerializer(user, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -41,6 +45,7 @@ class UsersView(APIView):
         responses={200: UsersSerializer}
     )
     def patch(request, user_id):
+        check_user(request, user_id)
         data = request.data
         user = get_one_user(user_id)
         serializer = UsersSerializer(data=data)
