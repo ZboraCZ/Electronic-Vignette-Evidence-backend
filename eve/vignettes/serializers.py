@@ -21,6 +21,7 @@ class VignetteSerializer(serializers.ModelSerializer):
 class ValidatedVignetteSerializer(serializers.Serializer):
     valid = serializers.BooleanField()
     valid_from = serializers.DateTimeField()
+    expire_date = serializers.DateTimeField()
 
     def create(self, validated_data):
         pass
