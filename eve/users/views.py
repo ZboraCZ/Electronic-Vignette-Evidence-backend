@@ -3,8 +3,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
-from .operations import get_one_user, get_users_license_plate
+from .operations import get_one_user, get_users_licence_plates, get_users_history
 from .serializers import UsersSerializer, LicensePlateSerializer
+
+from eve.vignettes.serializers import VignetteSerializer
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -19,9 +21,23 @@ class UsersLicensePlateView(APIView):
     )
     def get(request, user_id):
         check_user(request, user_id)
-        license_plate = get_users_license_plate(user_id)
-        serializer = LicensePlateSerializer(data=license_plate, many=True)
-        serializer.is_valid(raise_exception=True)
+        license_plate = get_users_licence_plates(user_id)
+        serializer = LicensePlateSerializer(license_plate, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UsersVignetteHistoryView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    @staticmethod
+    @extend_schema(
+        responses={200: VignetteSerializer}
+    )
+    def get(request, user_id):
+        check_user(request, user_id)
+        user_history = get_users_history(user_id)
+        serializer = VignetteSerializer(user_history, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
 """This module contains database operations"""
 
-from .models import Users
 from rest_framework.exceptions import NotFound
-from eve.vignettes.operations import get_vignette_by_user_id
+
+from .dto import LicencePlate
+from .models import Users
+
+from eve.vignettes.operations import get_vignette_by_user_id, get_all_vignettes_by_license_plate
+
+
+def _get_license_plates_by_user(user_id):
+    vignettes = get_vignette_by_user_id(get_one_user(user_id))
+    license_plate = []
+    for vignette in vignettes:
+        license_plate.append(vignette.license_plate)
+
+    return license_plate
 
 
 def get_one_user(user_id):
@@ -13,10 +25,18 @@ def get_one_user(user_id):
         raise NotFound(detail="User Not Found")
 
 
-def get_users_license_plate(user_id):
-    vignettes = get_vignette_by_user_id(get_one_user(user_id))
-    license_plate = []
-    for vignette in vignettes:
-        license_plate.append({"license_plate": vignette.license_plate})
+def get_users_licence_plates(user_id):
+    return [
+        LicencePlate(lp) for lp in _get_license_plates_by_user(user_id)
+    ]
 
-    return license_plate
+
+def get_users_history(user_id):
+    vignettes_history = []
+    licence_plates = _get_license_plates_by_user(user_id)
+
+    for lp in licence_plates:
+        lp_vignettes = get_all_vignettes_by_license_plate(lp)
+        vignettes_history.extend(lp_vignettes)
+
+    return vignettes_history
