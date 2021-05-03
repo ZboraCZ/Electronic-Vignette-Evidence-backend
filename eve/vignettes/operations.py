@@ -15,6 +15,7 @@ from dataclasses import dataclass
 class ValidatedVignette:
     valid: bool
     valid_from: datetime
+    expire_date: datetime
 
 
 def get_all_vignette_types():
@@ -26,7 +27,6 @@ def get_one_vignette_type(vignette_id):
         return VignetteType.objects.get(id=vignette_id)
     except VignetteType.DoesNotExist:
         raise NotFound(detail="Vignette Type Not Found")
-
 
 def get_one_vignette_by_id(vignette_id):
     try:
@@ -80,21 +80,47 @@ def get_active_vignette_by_license_plate(license_plate):
 
 
 def get_validated_vignette_by_license_plate(license_plate):
-    validated_vignettes = []
+    valid_vignettes = []
+    not_active_yet_vignettes = []
+    expired_vignettes = []
 
     active_vignettes = get_active_vignette_by_license_plate(license_plate)
     all_vignettes = get_all_vignettes_by_license_plate(license_plate)
-    expired_vignettes = set(all_vignettes) - set(active_vignettes)
+    not_active_vignettes = set(all_vignettes) - set(active_vignettes)
 
     for active_vignette in active_vignettes:
         validated_vignette = ValidatedVignette(valid=True, valid_from=active_vignette.valid_from)
-        validated_vignettes.append(validated_vignette)
-    for expired_vignette in expired_vignettes:
-        validated_vignette = ValidatedVignette(valid=False, valid_from=expired_vignette.valid_from)
-        validated_vignettes.append(validated_vignette)
+        valid_vignettes.append(validated_vignette)
+    for not_active_vignette in not_active_vignettes:
+        if (timezone.now() - not_active_vignette.valid_from).days < 0:
+            not_active_yet_vignettes.append(ValidatedVignette(valid=False, valid_from=not_active_vignette.valid_from))
+        else:
+            expired_vignettes.append(ValidatedVignette(valid=False, valid_from=not_active_vignette.valid_from))
 
-    if len(validated_vignettes) > 0:
-        return ValidatedVignette(valid=True, valid_from=validated_vignettes.pop().valid_from)
+    if len(valid_vignettes) > 0:
+        vignette = valid_vignettes.pop()
+        status = True
+        valid_from = vignette.valid_from
+        expire_date = vignette.expire_date
+    elif len(not_active_yet_vignettes) > 0:
+        not_active_yet_vignettes.sort(key=lambda x: x.valid_from, reverse=True)
+        vignette = not_active_yet_vignettes.pop()
+        status = False
+        valid_from = vignette.valid_from
+        expire_date = vignette.expire_date
+    elif len(expired_vignettes) > 0:
+        expired_vignettes.sort(key=lambda x: x.valid_from, reverse=False)
+        vignette = expired_vignettes.pop()
+        status = False
+        valid_from = vignette.valid_from
+        expire_date = vignette.expire_date
+    else:
+        status = False
+        valid_from = ""
+        expire_date = ""
+
+    if len(valid_vignettes) > 0 or len(not_active_vignettes) > 0 or len(expired_vignettes) > 0:
+        return ValidatedVignette(valid=status, valid_from=valid_from, expire_date=expire_date)
     else:
         raise NotFound(detail="Vignette with this license plate doesn't exist or is expired")
 
