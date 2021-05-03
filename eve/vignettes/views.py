@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
 from .operations import get_all_vignette_types, get_one_vignette_type, get_active_vignette_by_license_plate, \
-    get_one_vignette_by_id, get_validated_vignette_by_license_plate,  \
+    get_one_vignette_by_id, get_validated_vignette_by_license_plate, get_if_vignette_already_bought_by_license_plate, \
     get_all_vignettes_by_license_plate
 from eve.users.operations import get_one_user
 from .serializers import VignetteTypeSerializer, VignetteSerializer, ValidatedVignetteSerializer, \
@@ -71,7 +71,7 @@ class LicensePlateValidateView(APIView):
     def get(request, license_plate):
         valid = get_validated_vignette_by_license_plate(license_plate)
         serializer = ValidatedVignetteSerializer(valid)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class QuickBuyView(APIView):
@@ -83,6 +83,7 @@ class QuickBuyView(APIView):
         responses={200: QuickBuyVignetteSerializer}
     )
     def post(request, license_plate):
+        get_if_vignette_already_bought_by_license_plate(license_plate)
         data = request.data
         serializer_quick_buy = QuickBuyVignetteSerializer(data=data)
         serializer_quick_buy.is_valid(raise_exception=True)
@@ -99,6 +100,7 @@ class BuyView(APIView):
         responses={200: BuyVignetteSerializer}
     )
     def post(request, license_plate):
+        get_if_vignette_already_bought_by_license_plate(license_plate)
         data = request.data
         serializer_buy = BuyVignetteSerializer(data=data)
         serializer_buy.is_valid(raise_exception=True)

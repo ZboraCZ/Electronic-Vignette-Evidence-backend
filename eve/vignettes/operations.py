@@ -8,14 +8,13 @@ from .models import VignetteType, Vignette
 from datetime import datetime, timedelta
 from django.utils import timezone
 
-from django.db import models
-
 from dataclasses import dataclass
 
 
 @dataclass
 class ValidatedVignette:
     valid: bool
+    valid_from: datetime
 
 
 def get_all_vignette_types():
@@ -71,15 +70,6 @@ def get_active_vignette_by_license_plate(license_plate):
         raise NotFound(detail="Vignette with this license plate doesn't exist.")
 
 
-def get_expired_vignette_by_license_plate(license_plate):
-    now = timezone.now()
-    expired_vignettes = []
-    found_vignettes = get_vignettes_by_license_plate(license_plate)
-
-    for vignette in found_vignettes:
-        days_used = timedelta(days=(now))
-
-
 def get_validated_vignette_by_license_plate(license_plate):
     validated_vignettes = []
 
@@ -88,22 +78,34 @@ def get_validated_vignette_by_license_plate(license_plate):
     expired_vignettes = set(all_vignettes) - set(active_vignettes)
 
     for active_vignette in active_vignettes:
-        validated_vignette = ValidatedVignette(valid=True)
+        validated_vignette = ValidatedVignette(valid=True, valid_from=active_vignette.valid_from)
         validated_vignettes.append(validated_vignette)
     for expired_vignette in expired_vignettes:
-        validated_vignette = ValidatedVignette(valid=False)
+        validated_vignette = ValidatedVignette(valid=False, valid_from=expired_vignette.valid_from)
         validated_vignettes.append(validated_vignette)
 
     if len(validated_vignettes) > 0:
-        return ValidatedVignette(valid=True)
+        return ValidatedVignette(valid=True, valid_from=validated_vignettes.pop().valid_from)
     else:
-        raise NotFound(detail="Vignette with this license plate doesn't exist")
+        raise NotFound(detail="Vignette with this license plate doesn't exist or is expired")
 
 
-def get_vignette_by_user_id(user):
-    vignettes = []
-    vignettes = Vignette.objects.filter(user=user)
-    if len(vignettes) > 0:
-        return vignettes
+def get_if_vignette_already_bought_by_license_plate(license_plate):
+    now = timezone.now()
+    found_vignettes = get_vignettes_by_license_plate(license_plate)
+    valid_vignettes = []
+
+    for vignette in found_vignettes:
+        days_used = timedelta(days=(now - vignette.valid_from).days)
+
+        if days_used <= vignette.vignette_type.duration:
+            valid_vignettes.append(vignette)
+
+    if len(valid_vignettes) == 0:
+        return valid_vignettes
     else:
-        raise NotFound(detail="User doesn't have any vignette")
+        raise NotFound("Vignette with this license vignette already bought and valid.")
+
+
+
+
