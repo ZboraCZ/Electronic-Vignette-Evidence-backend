@@ -63,7 +63,7 @@ class BuyVignetteSerializer(serializers.Serializer):
 
 
 class ExtendVignetteSerializer(serializers.Serializer):
-    days = serializers.IntegerField()
+    vignette_type_id = serializers.IntegerField()
 
     def create(self, validated_data):
         pass

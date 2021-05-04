@@ -138,7 +138,6 @@ class ExtendView(APIView):
         extend_vignette(
             get_one_vignette_by_id(vignette_id),
             get_one_vignette_type(serializer.data["vignette_type_id"]),
-            timezone.now(),
         )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
