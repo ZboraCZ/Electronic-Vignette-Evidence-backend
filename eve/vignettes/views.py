@@ -36,7 +36,7 @@ class VignetteTypesView(APIView):
     permission_classes = []
 
     @staticmethod
-    @extend_schema(responses={200: VignetteTypeSerializer})
+    @extend_schema(responses={200: VignetteTypeSerializer(many=True)})
     def get(request):
         types = get_all_vignette_types()
         serializer = VignetteTypeSerializer(types, many=True)
@@ -62,7 +62,7 @@ class VignetteTypesView(APIView):
 
 class ActiveVignetteView(APIView):
     @staticmethod
-    @extend_schema(responses={200: VignetteSerializer})
+    @extend_schema(responses={200: VignetteSerializer(many=True)})
     def get(request, license_plate):
         active_vignettes = get_actual_and_future_vignettes(license_plate)
         serializer = VignetteSerializer(active_vignettes, many=True)
@@ -162,7 +162,7 @@ class RemoveView(APIView):
 
 class HistoryView(APIView):
     @staticmethod
-    @extend_schema(responses={200: VignetteSerializer})
+    @extend_schema(responses={200: VignetteSerializer(many=True)})
     def get(request, license_plate):
         serializer = VignetteSerializer(
             get_all_vignettes_by_license_plate(license_plate), many=True
