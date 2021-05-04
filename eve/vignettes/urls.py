@@ -11,6 +11,7 @@ from eve.vignettes.views import (
     QuickBuyView,
     RemoveView,
     VignetteTypesView,
+    VignetteEditView,
 )
 
 urlpatterns = [
@@ -24,4 +25,5 @@ urlpatterns = [
     path("<str:vignette_id>/extend", ExtendView.as_view()),
     path("<str:vignette_id>/delay", DelayView.as_view()),
     path("<str:vignette_id>/remove", RemoveView.as_view()),
+    path("<str:vignette_id>/edit", VignetteEditView.as_view())
 ]

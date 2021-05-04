@@ -30,10 +30,9 @@ def create_new_vignette_quick(vignette_type, valid_from, license_plate):
     ).save()
 
 
-def extend_vignette(vignette, vignette_type, valid_from):
-    vignette.vignette_type = vignette_type
-    vignette.valid_from = valid_from
-    vignette.save()
+def extend_vignette(vignette, vignette_type):
+    valid_from = vignette.valid_from + vignette.vignette_type.duration + vignette_type.duration
+    create_new_vignette(vignette.user, vignette_type, valid_from, vignette.license_plate)
 
 
 def str_to_timezone(time_str):
@@ -51,3 +50,4 @@ def delay_vignette(vignette, valid_from):
     vignette.valid_from = valid_from
     vignette.edited = True
     vignette.save()
+
