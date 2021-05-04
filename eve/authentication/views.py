@@ -7,6 +7,7 @@ from rest_framework.authtoken.models import Token
 from drf_spectacular.utils import extend_schema
 
 from eve.authentication.serializers import AuthUsersSerializer, TokenSerializer, AuthErrorSerializer
+from eve.exceptions import DataValidationFailed
 from eve.users.models import Users
 from eve.users.serializers import UsersAuthSerializer, UsersSerializer
 from eve.utils import encrypt_string
@@ -32,7 +33,7 @@ class RegistrationView(APIView):
             data["accessToken"] = token
             data["userId"] = user.id
             return Response(data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        raise DataValidationFailed()
 
 
 class LoginView(APIView):
