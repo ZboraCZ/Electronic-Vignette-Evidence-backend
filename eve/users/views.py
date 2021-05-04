@@ -18,7 +18,7 @@ from ..exceptions import DataValidationFailed
 class UsersLicensePlateView(APIView):
     @staticmethod
     @extend_schema(
-        responses={200: LicensePlateSerializer}
+        responses={200: LicensePlateSerializer(many=True)}
     )
     def get(request, user_id):
         check_user(request, user_id)
@@ -33,7 +33,7 @@ class UsersVignetteHistoryView(APIView):
 
     @staticmethod
     @extend_schema(
-        responses={200: VignetteSerializer}
+        responses={200: VignetteSerializer(many=True)}
     )
     def get(request, user_id):
         check_user(request, user_id)
@@ -53,7 +53,7 @@ class UsersView(APIView):
     def get(request, user_id):
         check_user(request, user_id)
         user = get_one_user(user_id)
-        serializer = UsersSerializer(user, many=False)
+        serializer = UsersSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @staticmethod

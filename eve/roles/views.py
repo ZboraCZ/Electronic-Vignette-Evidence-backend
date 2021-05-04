@@ -12,7 +12,7 @@ from .serializers import RoleSerializer
 class RolesView(APIView):
     @staticmethod
     @extend_schema(
-        responses={200: RoleSerializer}
+        responses={200: RoleSerializer(many=True)}
     )
     def get(request):
         all_roles = get_all_roles()
