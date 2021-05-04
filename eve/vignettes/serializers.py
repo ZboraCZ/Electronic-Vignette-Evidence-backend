@@ -20,6 +20,7 @@ class VignetteSerializer(serializers.ModelSerializer):
 
 class ValidatedVignetteSerializer(serializers.Serializer):
     valid = serializers.BooleanField()
+    status = serializers.CharField()
     valid_from = serializers.DateTimeField()
     expire_date = serializers.DateTimeField()
 
