@@ -47,7 +47,7 @@ class EditUserSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         instance.first_name = validated_data["first_name"]
-        instance.last_name = validated_data["first_name"]
+        instance.last_name = validated_data["last_name"]
         instance.phone = validated_data["phone"]
         if "password" in validated_data:
             new_password = encrypt_string(validated_data["password"])
