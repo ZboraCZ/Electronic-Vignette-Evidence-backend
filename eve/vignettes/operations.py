@@ -36,6 +36,22 @@ def get_vignette_by_user_id(user):
         raise NotFound(detail="User doesn't have any vignette")
 
 
+def get_actual_and_future_vignettes(license_plate):
+    vignettes = list()
+    found_vignettes = get_all_vignettes_by_license_plate(license_plate)
+    zero = timedelta(0)
+
+    for vignette in found_vignettes:
+        days_used = timedelta(days=(timezone.now() - vignette.valid_from).days)
+        if vignette.vignette_type.duration >= days_used >= zero:
+            vignettes.append(vignette)
+        if vignette.valid_from > timezone.now():
+            vignettes.append(vignette)
+    if vignettes:
+        return vignettes
+    raise NotFound(detail="Vignette with this license plate doesn't exist")
+
+
 def get_vignettes_by_license_plate(license_plate):
     try:
         return Vignette.objects.filter(valid_from__lte=datetime.now()).filter(
@@ -115,20 +131,3 @@ def get_validated_vignette_by_license_plate(license_plate):
         raise NotFound(
             detail="Vignette with this license plate doesn't exist or is expired"
         )
-
-
-def get_if_vignette_already_bought_by_license_plate(license_plate):
-    now = timezone.now()
-    found_vignettes = get_vignettes_by_license_plate(license_plate)
-    valid_vignettes = []
-
-    for vignette in found_vignettes:
-        days_used = timedelta(days=(now - vignette.valid_from).days)
-
-        if days_used <= vignette.vignette_type.duration:
-            valid_vignettes.append(vignette)
-
-    if len(valid_vignettes) == 0:
-        return valid_vignettes
-    else:
-        raise NotFound("Vignette with this license vignette already bought and valid.")
