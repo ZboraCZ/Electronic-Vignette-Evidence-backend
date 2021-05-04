@@ -42,8 +42,6 @@ class VignetteTypesView(APIView):
         serializer = VignetteTypeSerializer(types, many=True)
         return Response(serializer.data)
 
-
-class VignetteTypesEditView(APIView):
     @staticmethod
     @extend_schema(
         request=VignetteTypeSerializer, responses={200: VignetteTypeSerializer}
@@ -55,8 +53,8 @@ class VignetteTypesEditView(APIView):
 
         if serializer.is_valid():
             serializer.update(vignette_type, serializer.validated_data)
-            vignette_types = get_all_vignette_types()
-            vignette_type_serializer = VignetteTypeSerializer(vignette_types, many=True)
+            updated_vignette_types = get_one_vignette_type(vignette_type_id)
+            vignette_type_serializer = VignetteTypeSerializer(updated_vignette_types)
             return Response(vignette_type_serializer.data)
 
         return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
