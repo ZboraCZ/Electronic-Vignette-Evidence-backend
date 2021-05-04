@@ -26,3 +26,9 @@ class UserCheckFailed(APIException):
     default_detail = "Access forbidden. The client may be unauthorized or trying to access data that " \
                      "does not belong to him. "
     default_code = "access_denied"
+
+
+class DataValidationFailed(APIException):
+    status_code = 400
+    default_detail = "Data validation failed. Improper format of the data in the request."
+    default_code = "validation_failed"

@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
 from .operations import get_one_user, get_users_licence_plates, get_users_history
-from .serializers import UsersSerializer, LicensePlateSerializer
+from .serializers import UsersSerializer, LicensePlateSerializer, EditUserSerializer
 
 from eve.vignettes.serializers import VignetteSerializer
 
@@ -12,6 +12,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from ..authentication.operations import check_user
+from ..exceptions import DataValidationFailed
 
 
 class UsersLicensePlateView(APIView):
@@ -64,10 +65,11 @@ class UsersView(APIView):
         check_user(request, user_id)
         data = request.data
         user = get_one_user(user_id)
-        serializer = UsersSerializer(data=data)
+        serializer = EditUserSerializer(data=data)
 
         if serializer.is_valid():
             serializer.update(user, serializer.validated_data)
-            return Response(serializer.data)
-
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+            updated_user = get_one_user(user_id)
+            updated_serializer = UsersSerializer(updated_user)
+            return Response(updated_serializer.data)
+        raise DataValidationFailed()
