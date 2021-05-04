@@ -3,11 +3,11 @@
 
 from datetime import datetime, timedelta
 
-from .dto import ValidatedVignette
-from .models import VignetteType, Vignette
-
 from django.utils import timezone
 from rest_framework.exceptions import NotFound
+
+from .dto import ValidatedVignette
+from .models import Vignette, VignetteType
 
 
 def get_all_vignette_types():
@@ -109,7 +109,7 @@ def get_validated_vignette_by_license_plate(license_plate):
             valid=valid,
             status=status,
             valid_from=vignette.valid_from,
-            expire_date=vignette.valid_from + vignette.vignette_type.duration
+            expire_date=vignette.valid_from + vignette.vignette_type.duration,
         )
     else:
         raise NotFound(

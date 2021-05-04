@@ -3,7 +3,7 @@
 
 from rest_framework import serializers
 
-from .models import VignetteType, Vignette
+from .models import Vignette, VignetteType
 
 
 class VignetteTypeSerializer(serializers.ModelSerializer):
@@ -15,7 +15,15 @@ class VignetteTypeSerializer(serializers.ModelSerializer):
 class VignetteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vignette
-        fields = ["id", "user_id", "vignette_type_id", "serial_number", "valid_from", "license_plate", "created"]
+        fields = [
+            "id",
+            "user_id",
+            "vignette_type_id",
+            "serial_number",
+            "valid_from",
+            "license_plate",
+            "created",
+        ]
 
 
 class ValidatedVignetteSerializer(serializers.Serializer):

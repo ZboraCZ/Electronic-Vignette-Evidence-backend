@@ -1,19 +1,33 @@
 # -*- coding: utf-8 -*-
 """This module contains business logic"""
-from .models import Vignette
-from django.utils import timezone
-from datetime import timedelta, datetime
 
-from ..exceptions import AlreadyEdited, AfterStartDate, MaxDaysExceeded
+from datetime import datetime, timedelta
+
+from django.utils import timezone
+
+from ..exceptions import AfterStartDate, AlreadyEdited, MaxDaysExceeded
+from .models import Vignette
 
 
 def create_new_vignette(user, vignette_type, valid_from, license_plate):
-    Vignette(user=user, vignette_type=vignette_type, serial_number="0", valid_from=valid_from,
-             license_plate=license_plate, created=timezone.now()).save()
+    Vignette(
+        user=user,
+        vignette_type=vignette_type,
+        serial_number="0",
+        valid_from=valid_from,
+        license_plate=license_plate,
+        created=timezone.now(),
+    ).save()
 
 
 def create_new_vignette_quick(vignette_type, valid_from, license_plate):
-    Vignette(vignette_type=vignette_type, serial_number="0", valid_from=valid_from, license_plate=license_plate, created=timezone.now()).save()
+    Vignette(
+        vignette_type=vignette_type,
+        serial_number="0",
+        valid_from=valid_from,
+        license_plate=license_plate,
+        created=timezone.now(),
+    ).save()
 
 
 def extend_vignette(vignette, vignette_type, valid_from):
@@ -22,9 +36,9 @@ def extend_vignette(vignette, vignette_type, valid_from):
     vignette.save()
 
 
-def str_to_timezone(str):
+def str_to_timezone(time_str):
     date_format = "%Y-%m-%dT%H:%M:%S%z"
-    return datetime.strptime(str, date_format)
+    return datetime.strptime(time_str, date_format)
 
 
 def delay_vignette(vignette, valid_from):

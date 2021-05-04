@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
 
 from django.urls import path
-
-from eve.vignettes.views import VignetteTypesView, ActiveVignetteView, LicensePlateValidateView, QuickBuyView, BuyView,\
-    ExtendView, DelayView, RemoveView, HistoryView
+from eve.vignettes.views import (
+    ActiveVignetteView,
+    BuyView,
+    DelayView,
+    ExtendView,
+    HistoryView,
+    LicensePlateValidateView,
+    QuickBuyView,
+    RemoveView,
+    VignetteTypesView,
+)
 
 urlpatterns = [
     path("types/<int:vignette_type_id>/edit", VignetteTypesView.as_view()),
@@ -16,5 +24,4 @@ urlpatterns = [
     path("<str:vignette_id>/extend", ExtendView.as_view()),
     path("<str:vignette_id>/delay", DelayView.as_view()),
     path("<str:vignette_id>/remove", RemoveView.as_view()),
-
 ]
