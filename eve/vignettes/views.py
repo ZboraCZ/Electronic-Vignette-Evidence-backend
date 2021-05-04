@@ -173,3 +173,21 @@ class HistoryView(APIView):
             get_all_vignettes_by_license_plate(license_plate), many=True
         )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class VignetteEditView(APIView):
+    @staticmethod
+    @extend_schema(
+        request=VignetteSerializer,
+        responses={200: VignetteSerializer}
+    )
+    def patch(request, vignette_id):
+        data = request.data
+        vignette = get_one_vignette_by_id(vignette_id)
+        serializer = VignetteSerializer(data=data)
+
+        if serializer.is_valid():
+            serializer.update(vignette, serializer.validated_data)
+            return Response(serializer.data)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
