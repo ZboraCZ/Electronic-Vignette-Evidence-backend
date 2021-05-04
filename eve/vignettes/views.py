@@ -11,10 +11,9 @@ from .operations import (
     get_active_vignette_by_license_plate,
     get_all_vignette_types,
     get_all_vignettes_by_license_plate,
-    get_if_vignette_already_bought_by_license_plate,
     get_one_vignette_by_id,
     get_one_vignette_type,
-    get_validated_vignette_by_license_plate,
+    get_validated_vignette_by_license_plate, get_actual_and_future_vignettes,
 )
 from .serializers import (
     BuyVignetteSerializer,
@@ -67,7 +66,7 @@ class ActiveVignetteView(APIView):
     @staticmethod
     @extend_schema(responses={200: VignetteSerializer})
     def get(request, license_plate):
-        active_vignettes = get_active_vignette_by_license_plate(license_plate)
+        active_vignettes = get_actual_and_future_vignettes(license_plate)
         serializer = VignetteSerializer(active_vignettes, many=True)
         return Response(serializer.data)
 
@@ -93,7 +92,6 @@ class QuickBuyView(APIView):
         request=QuickBuyVignetteSerializer, responses={200: QuickBuyVignetteSerializer}
     )
     def post(request, license_plate):
-        get_if_vignette_already_bought_by_license_plate(license_plate)
         data = request.data
         serializer_quick_buy = QuickBuyVignetteSerializer(data=data)
         serializer_quick_buy.is_valid(raise_exception=True)
@@ -113,7 +111,6 @@ class BuyView(APIView):
         request=BuyVignetteSerializer, responses={200: BuyVignetteSerializer}
     )
     def post(request, license_plate):
-        get_if_vignette_already_bought_by_license_plate(license_plate)
         data = request.data
         serializer_buy = BuyVignetteSerializer(data=data)
         serializer_buy.is_valid(raise_exception=True)
