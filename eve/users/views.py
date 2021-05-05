@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
-from .operations import get_one_user, get_users_licence_plates, get_users_history
+from .operations import get_one_user, get_user_by_email, get_users_licence_plates, get_users_history
 from .serializers import UsersSerializer, LicensePlateSerializer, EditUserSerializer
 
 from eve.vignettes.serializers import VignetteSerializer
@@ -42,7 +42,7 @@ class UsersVignetteHistoryView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class UsersView(APIView):
+class UsersDetailView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -73,3 +73,14 @@ class UsersView(APIView):
             updated_serializer = UsersSerializer(updated_user)
             return Response(updated_serializer.data)
         raise DataValidationFailed()
+
+
+class UsersLookupView(APIView):
+    @staticmethod
+    @extend_schema(
+        responses={200: UsersSerializer}
+    )
+    def get(self, user_email):
+        user = get_user_by_email(user_email)
+        serializer = UsersSerializer(user)
+        return Response(serializer.data)
