@@ -11,11 +11,11 @@ from eve.vignettes.operations import get_vignette_by_user_id, get_all_vignettes_
 
 def _get_license_plates_by_user(user_id):
     vignettes = get_vignette_by_user_id(get_one_user(user_id))
-    license_plate = []
+    license_plate = list()
     for vignette in vignettes:
         license_plate.append(vignette.license_plate)
 
-    return license_plate
+    return set(license_plate)
 
 
 def get_one_user(user_id):
