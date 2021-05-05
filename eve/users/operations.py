@@ -25,6 +25,13 @@ def get_one_user(user_id):
         raise NotFound(detail="User Not Found")
 
 
+def get_user_by_email(user_email):
+    try:
+        return Users.objects.get(email=user_email)
+    except Users.DoesNotExist:
+        raise NotFound(detail="User Not Found")
+
+
 def get_users_licence_plates(user_id):
     return [
         LicencePlate(lp) for lp in _get_license_plates_by_user(user_id)
