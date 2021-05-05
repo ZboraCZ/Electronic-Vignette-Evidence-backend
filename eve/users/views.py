@@ -80,7 +80,8 @@ class UsersLookupView(APIView):
     @extend_schema(
         responses={200: UsersSerializer}
     )
-    def get(self, user_email):
+    def get(request, user_email):
+        check_user(request, None)
         user = get_user_by_email(user_email)
         serializer = UsersSerializer(user)
         return Response(serializer.data)
