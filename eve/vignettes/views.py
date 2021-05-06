@@ -181,7 +181,9 @@ class VignetteEditView(APIView):
         vignette = get_one_vignette_by_id(vignette_id)
         serializer = VignetteSerializer(data=data)
 
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
+            vignette_type_id = request.data["vignette_type_id"]
+            vignette.vignette_type = get_one_vignette_type(vignette_type_id)
             serializer.update(vignette, serializer.validated_data)
             return Response(VignetteSerializer(vignette).data)
 
