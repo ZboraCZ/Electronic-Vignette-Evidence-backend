@@ -40,7 +40,10 @@ def get_users_licence_plates(user_id):
 
 def get_users_history(user_id):
     vignettes_history = []
-    licence_plates = _get_license_plates_by_user(user_id)
+    try:
+        licence_plates = _get_license_plates_by_user(user_id)
+    except NotFound:
+        licence_plates = []
 
     for lp in licence_plates:
         lp_vignettes = get_all_vignettes_by_license_plate(lp)
