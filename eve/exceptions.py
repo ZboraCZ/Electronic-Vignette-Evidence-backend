@@ -32,3 +32,10 @@ class DataValidationFailed(APIException):
     status_code = 400
     default_detail = "Data validation failed. Improper format of the data in the request."
     default_code = "validation_failed"
+
+
+class ValidFromPast(APIException):
+    status_code = 400
+    default_detail = "Vignette must not be valid from date in the past."
+    default_code = "date_in_past"
+
