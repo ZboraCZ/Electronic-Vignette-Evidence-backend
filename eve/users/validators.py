@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 
 name_regex = RegexValidator(
-    regex=r"[A-Za-z]+$",
+    regex=r"[a-zA-ZÀ-ž]+$",
     message="Name must consist of letters only. Up to 50 letters allowed.",
 )
 
