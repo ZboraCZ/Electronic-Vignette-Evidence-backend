@@ -13,7 +13,7 @@ from .operations import (
     get_all_vignettes_by_license_plate,
     get_one_vignette_by_id,
     get_one_vignette_type,
-    get_validated_vignette_by_license_plate, get_actual_and_future_vignettes,
+    get_validated_vignette_by_license_plate, get_actual_and_future_vignettes, check_valid_from_date,
 )
 from .serializers import (
     BuyVignetteSerializer,
@@ -97,6 +97,7 @@ class QuickBuyView(APIView):
             serializer_quick_buy.validated_data["id_vignette_type"]
         )
         valid_from = serializer_quick_buy.validated_data["valid_from"]
+        check_valid_from_date(valid_from)
         create_new_vignette_quick(vignette_type, valid_from, license_plate)
         return Response(
             serializer_quick_buy.validated_data, status=status.HTTP_201_CREATED
@@ -116,6 +117,7 @@ class BuyView(APIView):
             serializer_buy.validated_data["id_vignette_type"]
         )
         valid_from = serializer_buy.validated_data["valid_from"]
+        check_valid_from_date(valid_from)
         user = get_one_user(serializer_buy.validated_data["id_user"])
         create_new_vignette(user, vignette_type, valid_from, license_plate)
         return Response(serializer_buy.data, status=status.HTTP_201_CREATED)
