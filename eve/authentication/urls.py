@@ -2,7 +2,7 @@
 
 from django.urls import path
 
-from eve.authentication.views import RegistrationView, LoginView
+from eve.authentication.views import LoginView, RegistrationView
 
 urlpatterns = [
     path("registration", RegistrationView.as_view()),

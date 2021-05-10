@@ -13,4 +13,3 @@ class TokenResponse:
 class AuthErrorResponse:
     error: str
     message: str
-

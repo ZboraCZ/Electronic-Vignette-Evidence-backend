@@ -1,15 +1,7 @@
 # -*- coding: utf-8 -*-
 """This module contains database models"""
 
-from datetime import datetime
-
-from django.contrib.auth.base_user import AbstractBaseUser
-
-from eve.roles.models import Roles
-from eve.users.models import Users
-
 from django.conf import settings
-from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
