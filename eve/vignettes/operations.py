@@ -136,7 +136,7 @@ def get_validated_vignette_by_license_plate(license_plate):
 
 def check_valid_from_date(valid_from):
     today = timezone.now().date()
-    if today > valid_from:
+    if today > valid_from.date():
         raise ValidFromPast()
     return
 
